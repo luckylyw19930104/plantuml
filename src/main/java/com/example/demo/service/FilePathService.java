@@ -3,7 +3,9 @@ package com.example.demo.service;
 
 import java.io.File;
 import java.io.IOException;
- 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
@@ -14,6 +16,7 @@ import com.example.demo.pojo.FilePath;
 import com.example.demo.repository.FilePathRepository;
 import com.example.demo.util.FileUtil;
 import com.example.demo.util.PlantUmlUtil;
+import com.example.demo.util.decodeUtil;
 
 import net.sourceforge.plantuml.asciiart.UmlCharArea;
  
@@ -25,11 +28,8 @@ public class FilePathService {
 	private FilePathRepository filePathRepository;
 	
 	public String Upload(@RequestParam("file") MultipartFile file) {
-		if(!file.isEmpty()) {
-					
+		if(!file.isEmpty()) {	
 			String fileName = file.getOriginalFilename();		
-			
-			
 			String path = "/Users/luckylyw19930104/eclipse-workspace/plantuml/src/main/resources/static";
  
 			try {			
@@ -48,20 +48,32 @@ public class FilePathService {
 			}
 				
 			FilePath biaopath = new FilePath();
-			biaopath.setPath("http://localhost:8080/"+fileName);
+			biaopath.setPath("http://localhost:8080/png"+fileName);
 			biaopath.setUml(umlFile);
-			filePathRepository.save(biaopath);
-			
+			filePathRepository.save(biaopath);			
 		}
 		return "success";	
 	}
 	
-	public void Generate(@RequestParam("filePath") String filePath) {
+	public void Generate(@RequestParam("encode") String encode) throws IOException {
+		String uml = decodeUtil.getUmlSource("SyfFKj2rKt3CoKnELR1Io4W50000");
 		try {
-			PlantUmlUtil.PlantUMLGenerate(filePath);
+			PlantUmlUtil.PlantUMLGenerate(uml);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		FileUtil.copyImage();
+	}
+	
+	public void SelectByName(@RequestParam("groupName") String groupName) {
+		String path = "";
+		List<FilePath> FileList = filePathRepository.findUserByName(groupName);
+		File file = new File(path);
+		
+		for (FilePath fp: FileList) {
+			String uml = fp.getUml();
+			
 		}
 	}
 }

@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +27,15 @@ public class FileController {
 		
 		@RequestMapping("/generate")
 		@ResponseBody
-		public void generate(@RequestParam("filePath") String filePath) {
-			filePathService.Generate(filePath);
+		public void generate(@RequestParam("encode") String encode) throws IOException {
+			filePathService.Generate(encode);
 		}
+		
+		@RequestMapping("/index")
+		@ResponseBody
+		public String index() {
+			return "/index";
+		}
+		
+		
 }
