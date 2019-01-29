@@ -35,13 +35,33 @@ public class FilePath {
 	public void setUml(String uml) {
 		this.uml = uml;
 	}
+	
+	public String getGroupId() {
+		return GroupId;
+	}
+
+	public void setGroupId(String groupId) {
+		GroupId = groupId;
+	}
+
+	public String getProjectId() {
+		return ProjectId;
+	}
+
+	public void setProjectId(String projectId) {
+		ProjectId = projectId;
+	}
  
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public Integer id;
 	
-	public String Path;
+	public String GroupId;
 	
+	public String ProjectId;
+	
+	public String Path;
+
 	public String uml;
 
 	

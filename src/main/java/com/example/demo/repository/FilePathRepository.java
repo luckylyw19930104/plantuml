@@ -14,8 +14,8 @@ import com.example.demo.pojo.FilePath;
 @Transactional
 public interface FilePathRepository extends CrudRepository<FilePath, Integer> {
 	
-	@Query(value = "select u.* from user u where u.GroupName=?1", nativeQuery = true)
+	@Query(value = "select * from uml where uml like %?1%", nativeQuery = true)
     @Modifying
-    List<FilePath> findUserByName(String groupName);
+    List<FilePath> findUserByGroupName(String groupName);
 
 }

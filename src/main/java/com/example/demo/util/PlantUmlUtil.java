@@ -33,8 +33,8 @@ public class PlantUmlUtil {
 		// Return a null string if no generation
 	}
 	
-	public static String Txt2String() throws IOException{
-		String path = FileContent.filePath + "" + ".txt"; //TODO: add encode to upload
+	public static String Txt2String(String encode) throws IOException{
+		String path = FileContent.filePath + encode + ".txt"; //TODO: add encode to upload
 		StringBuffer buffer = new StringBuffer();
         BufferedReader bf= new BufferedReader(new FileReader(path));
         String s = null;

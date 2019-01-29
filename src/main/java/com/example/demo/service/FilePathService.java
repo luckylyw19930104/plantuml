@@ -12,6 +12,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.common.FileContent;
 import com.example.demo.pojo.FilePath;
 import com.example.demo.repository.FilePathRepository;
 import com.example.demo.util.FileUtil;
@@ -30,26 +31,21 @@ public class FilePathService {
 	public String Upload(@RequestParam("file") MultipartFile file) {
 		if(!file.isEmpty()) {	
 			String fileName = file.getOriginalFilename();		
-			String path = "/Users/luckylyw19930104/eclipse-workspace/plantuml/src/main/resources/static";
- 
+			String path = "./src/main/resources/static/png";
+			String GroupId = "MTC";
+			String ProjectId = "test";
 			try {			
 				FileUtil.fileupload(file.getBytes(), path, fileName);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			String umlFile = "";
-			try {
-				umlFile = PlantUmlUtil.Txt2String();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				
 			FilePath biaopath = new FilePath();
-			biaopath.setPath("http://localhost:8080/png"+fileName);
+			biaopath.setPath("http://localhost:8080/png/"+fileName);
 			biaopath.setUml(umlFile);
+			biaopath.setProjectId(ProjectId);
+			biaopath.setGroupId(GroupId);
 			filePathRepository.save(biaopath);			
 		}
 		return "success";	
@@ -63,17 +59,27 @@ public class FilePathService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		FileUtil.copyImage();
+		//FileUtil.copyImage();
 	}
 	
-	public void SelectByName(@RequestParam("groupName") String groupName) {
-		String path = "";
-		List<FilePath> FileList = filePathRepository.findUserByName(groupName);
-		File file = new File(path);
-		
-		for (FilePath fp: FileList) {
-			String uml = fp.getUml();
+	public String UploadDatabase(@RequestParam("encode") String encode) throws IOException {
+			String imageName = encode + ".png";
+			//String path = "/Users/luckylyw19930104/eclipse-workspace/plantuml/src/main/resources/static/png";
+			String GroupId = "MTC";
+			String ProjectId = "test";
+			String uml = decodeUtil.getUmlSource(encode);
 			
-		}
+			FilePath biaopath = new FilePath();
+			biaopath.setPath("http://localhost:8080/"+imageName);
+			biaopath.setUml(uml);
+			biaopath.setProjectId(ProjectId);
+			biaopath.setGroupId(GroupId);
+			filePathRepository.save(biaopath);			
+		
+		return "success";	
+	}
+	
+	public List<FilePath> SelectByGroup(@RequestParam("groupId") String groupId) {
+		return filePathRepository.findUserByGroupName(groupId);
 	}
 }
