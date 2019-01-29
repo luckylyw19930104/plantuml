@@ -29,9 +29,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.common.FileContent;
 import com.example.demo.repository.FilePathRepository;
 import com.example.demo.service.FilePathService;
- 
+
 @Controller
 public class FileController {
 		
@@ -47,7 +48,7 @@ public class FileController {
 		 @ResponseBody 
 		public ResponseEntity<byte[]> generate(@PathVariable("encode") String encode) throws IOException {
 			filePathService.Generate(encode);
-			String filename = "/Users/luckylyw19930104/eclipse-workspace/plantuml/src/main/resources/static/png/test.png";
+			String filename = FileContent.imagePath + encode + ".png";
 	        InputStream inputImage = new FileInputStream(filename);
 	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	        byte[] buffer = new byte[512];

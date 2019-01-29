@@ -56,9 +56,9 @@ public class FilePathService {
 	}
 	
 	public void Generate(@RequestParam("encode") String encode) throws IOException {
-		String uml = decodeUtil.getUmlSource("SyfFKj2rKt3CoKnELR1Io4W50000");
+		String uml = decodeUtil.getUmlSource(encode);
 		try {
-			PlantUmlUtil.PlantUMLGenerate(uml);
+			PlantUmlUtil.PlantUMLGenerate(uml, encode);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

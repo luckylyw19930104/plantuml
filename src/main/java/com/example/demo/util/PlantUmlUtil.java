@@ -7,10 +7,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.spec.EncodedKeySpec;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.demo.common.FileContent;
+import com.example.demo.pojo.FilePath;
 
 import net.sourceforge.plantuml.GeneratedImage;
 import net.sourceforge.plantuml.SourceFileReader;
@@ -18,9 +22,9 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 public class PlantUmlUtil {
 	//private final static String path = "/Users/luckylyw19930104/Documents/test.txt";
-	public static void PlantUMLGenerate(String uml) throws IOException {
-		File f= new File("/Users/luckylyw19930104/Documents/123.png") ;
-		
+	public static void PlantUMLGenerate(String uml, String encode) throws IOException {
+		String path = FileContent.imagePath + encode + ".png";
+		File f= new File(path) ;
 		OutputStream png = null;   // 准备好一个输出的对象
 		png = new FileOutputStream(f)  ; 
 		SourceStringReader reader = new SourceStringReader(uml);
@@ -30,8 +34,9 @@ public class PlantUmlUtil {
 	}
 	
 	public static String Txt2String() throws IOException{
+		String path = FileContent.filePath + "" + ".txt"; //TODO: add encode to upload
 		StringBuffer buffer = new StringBuffer();
-        BufferedReader bf= new BufferedReader(new FileReader("/Users/luckylyw19930104/Documents/result.txt"));
+        BufferedReader bf= new BufferedReader(new FileReader(path));
         String s = null;
         while((s = bf.readLine())!=null){
             buffer.append(s.trim() + "\n");
